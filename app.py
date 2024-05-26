@@ -4,6 +4,7 @@ import threading
 import time
 import logging
 
+
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
@@ -11,11 +12,11 @@ logger = logging.getLogger(__name__)
 class Device:
     def __init__(self, ip) -> None:
         self.ip = ip
-        self.uptime = None
         self.status = None
+        self.last_connection = None
 
     def jsonify(self):
-        return {"status": self.status, "uptime": self.uptime, "ip": self.ip}
+        return {"status": self.status, "time": self.last_connection, "ip": self.ip}
 
 
 app = Flask(__name__)
@@ -26,14 +27,15 @@ devices = [Device("192.168.143.202")]
 def update_status(devices: list[Device]):
     while True:
         for device in devices:
-            logger.debug(f"Updating status for {device.ip}")
             response = requests.get(f"http://{device.ip}/")
             response_body: dict = response.json()
-            uptime = response_body.get("uptime")
             status = response_body.get("status")
+            
+            curr_time = time.time()
+            correct_time = time.ctime(curr_time)
 
-            device.uptime = uptime
             device.status = status
+            device.last_connection = correct_time
             print("device is still working")
 
         time.sleep(10)
@@ -42,8 +44,6 @@ def update_status(devices: list[Device]):
 def turn_off_all(devices):
     for device in devices:
         response = requests.get(f"http://{device.ip}/turn_off")
-        if response.status_code != 200:
-            print(f"Failed to turn off device at {device.ip}")
 
 
 @app.route("/")
@@ -62,11 +62,11 @@ def turn_on(id: str, cmd: str):
     response = requests.get(f"http://{devices[id].ip}/{cmd}")
     response_body: dict = response.json()
 
-    uptime = response_body.get("uptime")
     status = response_body.get("status")
+    time = response_body.get("time")
 
-    devices[id].uptime = uptime
     devices[id].status = status
+    devices[id].last_connection = time
 
     return ("", 200)
 
