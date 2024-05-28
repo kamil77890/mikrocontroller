@@ -7,6 +7,9 @@
 #include <time.h>
 #include <esp_http_server.h>
 
+#define LED_FULL_CYCLE_MS 10
+int led_on_time = 4;
+
 static const char *TAG = "MAIN";
 
 bool is_turned_on = false;
@@ -14,11 +17,12 @@ time_t startup_time;
 
 esp_err_t root_handler(httpd_req_t *request)
 {
+    led_on_time = 0;
     httpd_resp_set_type(request, "application/json");
     char napis[100];
     time_t current_time;
     time(&current_time);
-    sprintf(napis, "{\"status\": %s, \"time\": %ld}", is_turned_on ? "true" : "false", (long int)current_time);
+    sprintf(napis, "{\"brightness\": %d, \"time\": %ld}", led_on_time, (long int)current_time);
     httpd_resp_sendstr(request, napis);
     return ESP_OK;
 }
@@ -32,21 +36,20 @@ esp_err_t turn_off_handler(httpd_req_t *request)
     time_t seconds;
 
     time(&seconds);
-    sprintf(napis, "{\"status\": %s, \"time\": %ld}", is_turned_on ? "true" : "false", (long int)seconds);
+    sprintf(napis, "{\"brightness\": %d, \"time\": %ld}", led_on_time, (long int)seconds);
     httpd_resp_sendstr(request, napis);
     return ESP_OK;
 }
 
 esp_err_t turn_on_handler(httpd_req_t *request)
 {
-    gpio_set_level(GPIO_NUM_2, 1);
-    is_turned_on = true;
+    led_on_time = 4;
     httpd_resp_set_type(request, "application/json");
     char napis[100];
     time_t seconds;
 
     time(&seconds);
-    sprintf(napis, "{\"status\": %s, \"time\": %ld}", is_turned_on ? "true" : "false", (long int)seconds);
+    sprintf(napis, "{\"brightness\": %d, \"time\": %ld}", led_on_time, (long int)seconds);
     httpd_resp_sendstr(request, napis);
     return ESP_OK;
 }
@@ -82,8 +85,8 @@ void app_main(void)
 
     wifi_config_t wifi_cfg = {
         .sta = {
-            .ssid = "Ja",
-            .password = "12klatkA"}};
+            .ssid = "cholera nie pokazuj swojego",
+            .password = "hasla wifi publicznie!!!"}};
 
     esp_wifi_set_mode(WIFI_MODE_STA);
     esp_wifi_set_config(WIFI_IF_STA, &wifi_cfg);
@@ -104,6 +107,9 @@ void app_main(void)
 
     while (1)
     {
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        gpio_set_level(GPIO_NUM_2, 1);
+        vTaskDelay((LED_FULL_CYCLE_MS - led_on_time) / portTICK_PERIOD_MS);
+        gpio_set_level(GPIO_NUM_2, 0);
+        vTaskDelay(abs((led_on_time - LED_FULL_CYCLE_MS)) / portTICK_PERIOD_MS);
     }
 }

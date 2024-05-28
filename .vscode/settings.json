@@ -1,9 +1,0 @@
-{
-  "workbench.commandPalette.experimental.suggestCommands": true,
-  "workbench.experimental.cloudChanges.partialMatches.enabled": false,
-  "workbench.experimental.share.enabled": false,
-  "workbench.layoutControl.enabled": true,
-  "workbench.panel.opensMaximized": "preserve",
-  "workbench.panel.defaultLocation": "bottom",
-  "notebook.experimental.variablesView": true
-}
