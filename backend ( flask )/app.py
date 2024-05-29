@@ -1,27 +1,29 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 import requests
 import threading
 import time
 import logging
-
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
 class Device:
-    def __init__(self, ip) -> None:
+    def __init__(self, ip, name) -> None:
         self.ip = ip
+        self.name = name
         self.status = None
         self.last_connection = None
 
     def jsonify(self):
-        return {"status": self.status, "time": self.last_connection, "ip": self.ip}
+        return {"status": self.status, "name": self.name, "time": self.last_connection, "ip": self.ip}
 
 
 app = Flask(__name__)
+CORS(app)
 
-devices = [Device("192.168.143.202")]
+devices = []
 
 
 def update_status(devices: list[Device]):
@@ -30,7 +32,7 @@ def update_status(devices: list[Device]):
             response = requests.get(f"http://{device.ip}/")
             response_body: dict = response.json()
             status = response_body.get("status")
-            
+
             curr_time = time.time()
             correct_time = time.ctime(curr_time)
 
@@ -46,8 +48,19 @@ def turn_off_all(devices):
         response = requests.get(f"http://{device.ip}/turn_off")
 
 
-@app.route("/")
-def all():
+def turn_on_all(devices):
+    for device in devices:
+        response = requests.get(f"http://{device.ip}/turn_on")
+
+
+@app.route("/off")
+def all_turn_off():
+    threading.Thread(target=turn_off_all, args=(devices,), daemon=True).start()
+    return ("", 200)
+
+
+@app.route("/on")
+def all_turn_on():
     threading.Thread(target=turn_off_all, args=(devices,), daemon=True).start()
     return ("", 200)
 
@@ -76,6 +89,17 @@ def status():
     return jsonify([d.jsonify() for d in devices])
 
 
+@app.route('/api/data', methods=['POST'])
+def receive_data():
+    data = request.json
+    ip = data.get("ip")
+    name = data.get("name")
+    if name == None:
+        print("U are stupid")
+    else:
+        devices.append(Device(ip, name))
+
+
 if __name__ == "__main__":
     threading.Thread(target=update_status, daemon=True, args=[devices]).start()
-    app.run(debug=True)
+    app.run(debug=True,  port=5000)

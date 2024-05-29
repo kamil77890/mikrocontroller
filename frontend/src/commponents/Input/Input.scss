@@ -1,0 +1,49 @@
+/* Input.scss */
+
+.input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  border: 1px solid #aaa; /* Border color */
+  border-radius: 5px; /* Border radius */
+  padding: 10px; /* Add padding */
+  width: 45%;
+  height: 200px;
+  position: absolute;
+  left: 700px;
+  top: 200px;
+}
+.input-container:hover {
+  border-color: #007bff;
+}
+
+.input-field {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.input-field::placeholder {
+  color: #aaa;
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
