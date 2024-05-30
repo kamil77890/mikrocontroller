@@ -1,9 +1,8 @@
 import "./Devices.scss";
 import { Info } from "../../utils";
 import { useState, useEffect } from "react";
-import DevicesFunctions from "../DevicesFunctions";
 
-const Devices = () => {
+const Devices = ({ setSelectedDevice }) => {
   const [devices, setDevices] = useState([]);
 
   useEffect(() => {
@@ -51,14 +50,9 @@ const Devices = () => {
               </p>
             </div>
             <span className="status">
-              {isDeviceActive(device.time) ? "Conected" : "Disconnected..."}
+              {isDeviceActive(device.time) ? "Connected" : "Disconnected..."}
             </span>
-            <button
-              onClick={(index) => {
-                DevicesFunctions(index, device.name);
-              }}
-              className="ip"
-            >
+            <button onClick={() => setSelectedDevice(device)} className="ip">
               {device.ip}
             </button>
           </div>

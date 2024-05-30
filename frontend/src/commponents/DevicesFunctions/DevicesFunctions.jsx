@@ -1,33 +1,29 @@
-import "./DevicesFunctions";
-import { Turn_off, Turn_on } from "../../utils";
+import React, { useEffect, useState } from "react";
+import {
+  Info,
+  Turn_off,
+  Turn_on,
+  Turn_off_all,
+  Turn_on_all,
+} from "../../utils";
 
-const DevicesFunctions = (props) => {
-  const { id, name = "Device" } = props;
+const DevicesFunctions = ({ device }) => {
   return (
-    <main>
-      <div>
-        <h1>{name}</h1>
-        <h3>{id}</h3>
-      </div>
-      <div className="device__funtions">
-        <button
-          onClick={() => {
-            Turn_off(id);
-          }}
-          className="id"
-        >
-          Turn off
-        </button>
-        <button
-          onClick={() => {
-            Turn_on(id);
-          }}
-          className="id"
-        >
-          Turn on
-        </button>
-      </div>
-    </main>
+    <div>
+      <button onClick={Turn_off_all}>Turn Off All</button>
+      <button onClick={Turn_on_all}>Turn On All</button>
+      {device ? (
+        <div key={device.id}>
+          <h3>{device.name}</h3>
+          <p>Status: {device.status}</p>
+          <p>Last Connection: {device.time}</p>
+          <button onClick={() => Turn_off(device.id)}>Turn Off</button>
+          <button onClick={() => Turn_on(device.id)}>Turn On</button>
+        </div>
+      ) : (
+        "No device found..."
+      )}
+    </div>
   );
 };
 
