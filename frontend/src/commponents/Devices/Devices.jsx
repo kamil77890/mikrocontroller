@@ -2,9 +2,10 @@ import "./Devices.scss";
 import { Info } from "../../utils";
 import { Device } from "../Device";
 import { useState, useEffect } from "react";
+import { useDeviceContext } from "../../contexts/DeviceContext";
 
 const Devices = ({ setSelectedDevice }) => {
-  const [devices, setDevices] = useState([]);
+  const { devices, setDevices } = useDeviceContext();
 
   useEffect(() => {
     const fetchData = () => {
@@ -30,14 +31,14 @@ const Devices = ({ setSelectedDevice }) => {
     <aside className="devices">
       <h1>Devices</h1>
       <div className="devices__list">
-        {devices.map((device, index) => {
+        {devices.map((device, index) => (
           <Device
             device={device}
             index={index}
             setSelectedDevice={setSelectedDevice}
             isDeviceActive={isDeviceActive}
-          />;
-        })}
+          />
+        ))}
       </div>
     </aside>
   );
