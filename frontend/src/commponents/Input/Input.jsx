@@ -24,11 +24,12 @@ const Input = () => {
 
   return (
     <div className="input-container">
+      <h3>Add device</h3>
       <form method="post" action="/submit" id="inputForm"></form>
       <input
         className="input-field"
         type="text"
-        placeholder="Ip..."
+        placeholder="IP address"
         id="ip"
         name="ip"
         value={ip}
@@ -39,7 +40,7 @@ const Input = () => {
       <input
         className="input-field"
         type="text"
-        placeholder="Name..."
+        placeholder="Device name"
         id="name"
         name="name"
         value={name}
@@ -48,7 +49,7 @@ const Input = () => {
         }}
       />
       <button className="button" onClick={handleSubmit}>
-        Add device...
+        Add
       </button>
     </div>
   );
