@@ -12,38 +12,4 @@
     display: flex;
     flex-direction: column;
   }
-
-  &__item {
-    border-radius: 1px;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-bottom: #ccc 3px solid;
-    border-top: #ccc 3px solid;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  &__setup {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 15px;
-    .img {
-      width: 20px;
-      height: 20px;
-    }
-
-    .name {
-      font-size: 36px;
-      text-align: start;
-      margin: 0;
-    }
-  }
-  .status {
-    font-family: "Courier New", Courier, monospace;
-    font-size: 20px;
-    text-decoration: underline;
-    margin: 15px;
-  }
 }

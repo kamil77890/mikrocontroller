@@ -1,5 +1,6 @@
 import "./Devices.scss";
 import { Info } from "../../utils";
+import { Device } from "../Device";
 import { useState, useEffect } from "react";
 
 const Devices = ({ setSelectedDevice }) => {
@@ -29,34 +30,14 @@ const Devices = ({ setSelectedDevice }) => {
     <aside className="devices">
       <h1>Devices</h1>
       <div className="devices__list">
-        {devices.map((device, index) => (
-          <div key={index} className="devices__item">
-            <div className="devices__setup">
-              <h2 className="name">{device.name}</h2>
-              <p>
-                {device.status ? (
-                  <img
-                    className="img"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Green_medal_icon_blank.svg/2048px-Green_medal_icon_blank.svg.png"
-                    alt="Active"
-                  />
-                ) : (
-                  <img
-                    className="img"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Red_sphere_shaded_lightsource_top_right.svg/1024px-Red_sphere_shaded_lightsource_top_right.svg.png"
-                    alt="Inactive"
-                  />
-                )}
-              </p>
-            </div>
-            <span className="status">
-              {isDeviceActive(device.time) ? "Connected" : "Disconnected..."}
-            </span>
-            <button onClick={() => setSelectedDevice(device)} className="ip">
-              {device.ip}
-            </button>
-          </div>
-        ))}
+        {devices.map((device, index) => {
+          <Device
+            device={device}
+            index={index}
+            setSelectedDevice={setSelectedDevice}
+            isDeviceActive={isDeviceActive}
+          />;
+        })}
       </div>
     </aside>
   );
