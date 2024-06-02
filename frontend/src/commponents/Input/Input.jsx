@@ -24,7 +24,7 @@ const Input = () => {
 
   return (
     <div className="input-container">
-      <h3>Add device</h3>
+      <h2>Add device</h2>
       <form method="post" action="/submit" id="inputForm"></form>
       <input
         className="input-field"

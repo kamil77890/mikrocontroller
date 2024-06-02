@@ -1,12 +1,9 @@
 .devices {
-  padding: 20px;
-  font-family: cursive;
-  border: #ccc solid 2px;
   width: 300px;
-  height: 800px;
-  position: absolute;
-  left: 300px;
-  top: 200px;
+  height: 92vh;
+  padding: 20px;
+  border: #ccc solid 3px;
+  border-radius: 10px;
 
   &__list {
     display: flex;

@@ -6,24 +6,22 @@ import {
   Turn_off_all,
   Turn_on_all,
 } from "../../utils";
+import "./DevicesFunctions.scss";
+import DeviceControlPanel from "../DeviceControlPanel";
 
 const DevicesFunctions = ({ device }) => {
   return (
-    <div>
-      <button onClick={Turn_off_all}>Turn Off All</button>
-      <button onClick={Turn_on_all}>Turn On All</button>
+    <>
+      <div className="functions">
+        <button onClick={Turn_off_all}>Turn Off All</button>
+        <button onClick={Turn_on_all}>Turn On All</button>
+      </div>
       {device ? (
-        <div key={device.id}>
-          <h3>{device.name}</h3>
-          <p>Status: {device.status}</p>
-          <p>Last Connection: {device.time}</p>
-          <button onClick={() => Turn_off(device.id)}>Turn Off</button>
-          <button onClick={() => Turn_on(device.id)}>Turn On</button>
-        </div>
+        <DeviceControlPanel device={device} />
       ) : (
-        "No device found..."
+        "Select a device to show more options"
       )}
-    </div>
+    </>
   );
 };
 

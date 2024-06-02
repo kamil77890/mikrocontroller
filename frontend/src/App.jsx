@@ -10,9 +10,14 @@ function App() {
 
   return (
     <DeviceProvider>
-      <Input />
-      <Devices setSelectedDevice={setSelectedDevice} />
-      <DevicesFunctions device={selectedDevice} />
+      <Devices
+        selectedDevice={selectedDevice}
+        setSelectedDevice={setSelectedDevice}
+      />
+      <main>
+        <Input />
+        <DevicesFunctions device={selectedDevice} />
+      </main>
     </DeviceProvider>
   );
 }

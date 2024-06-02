@@ -7,21 +7,20 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
-  border: 1px solid #aaa; /* Border color */
-  border-radius: 5px; /* Border radius */
+  border: 3px solid #ccc; /* Border color */
+  border-radius: 10px; /* Border radius */
   padding: 10px; /* Add padding */
-  width: 45%;
   height: 250px;
-  position: absolute;
-  left: 700px;
-  top: 200px;
-  h3 {
+  // position: absolute;
+  // left: 700px;
+  // top: 200px; // nie chcę na to patrzeć, źle mi się robi na widok tego
+  h2 {
     margin: 0;
   }
 }
-.input-container:hover {
-  border-color: #007bff;
-}
+// .input-container:hover {
+//   border-color: #007bff;
+// }
 
 .input-field {
   padding: 10px;
@@ -40,8 +39,10 @@
 }
 
 .button {
-  padding: 10px 20px;
+  margin-top: 10px;
+  padding: 10px 25px;
   background-color: #007bff;
+  transition: 0.2s;
   color: #fff;
   border: none;
   border-radius: 5px;

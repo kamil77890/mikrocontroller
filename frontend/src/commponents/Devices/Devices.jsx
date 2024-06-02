@@ -1,10 +1,10 @@
 import "./Devices.scss";
 import { Info } from "../../utils";
-import { Device } from "../Device";
+import Device from "../Device";
 import { useState, useEffect } from "react";
 import { useDeviceContext } from "../../contexts/DeviceContext";
 
-const Devices = ({ setSelectedDevice }) => {
+const Devices = ({ selectedDevice, setSelectedDevice }) => {
   const { devices, setDevices } = useDeviceContext();
 
   useEffect(() => {
@@ -35,6 +35,7 @@ const Devices = ({ setSelectedDevice }) => {
           <Device
             device={device}
             index={index}
+            selectedDevice={selectedDevice}
             setSelectedDevice={setSelectedDevice}
             isDeviceActive={isDeviceActive}
           />
