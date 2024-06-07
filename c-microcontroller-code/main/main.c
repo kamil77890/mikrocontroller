@@ -85,8 +85,8 @@ void app_main(void)
 
     wifi_config_t wifi_cfg = {
         .sta = {
-            .ssid = "cholera nie pokazuj swojego",
-            .password = "hasla wifi publicznie!!!"}};
+            .ssid = "TechniSchools",
+            .password = "TS2023!@%"}};
 
     esp_wifi_set_mode(WIFI_MODE_STA);
     esp_wifi_set_config(WIFI_IF_STA, &wifi_cfg);
