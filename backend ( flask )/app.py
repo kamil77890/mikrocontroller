@@ -5,7 +5,7 @@ import threading
 import time
 
 
- 
+class Device:
     def __init__(self, id, ip, name) -> None:
         self.id = id
         self.ip = ip
@@ -38,7 +38,7 @@ def update_status(devices: list[Device]):
             device.last_connection = correct_time
             print("device is still working")
 
-            time.sleep(0.01)
+            time.sleep(5)
 
 
 def turn_off_all(devices):
