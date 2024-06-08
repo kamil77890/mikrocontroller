@@ -3,6 +3,26 @@ from flask_cors import CORS
 import requests
 import threading
 import time
+# import sqlite3
+
+# db_file_path = "C:\\Users\\kamil\\OneDrive - Niepubliczne Technikum Programistyczne Techni Schools\\Dokumenty\\mikrocontroller\\database\\database.db"
+# conn = sqlite3.connect(db_file_path)
+
+# cursor = conn.cursor()
+# create_table_query = '''
+# CREATE TABLE IF NOT EXISTS device (
+#     id INTEGER PRIMARY KEY,
+#     username TEXT NOT NULL,
+#     uptime TEXT NOT NULL,
+#     ip TEXT NOT NULL CHECK(LENGTH(ip) <= 15)
+# );
+# '''
+
+# cursor.execute(create_table_query)
+
+# conn.commit()
+
+# conn.close()
 
 
 class Device:
