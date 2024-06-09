@@ -3,6 +3,7 @@ from flask_cors import CORS
 import requests
 import threading
 import time
+
 # import sqlite3
 
 # db_file_path = "C:\\Users\\kamil\\OneDrive - Niepubliczne Technikum Programistyczne Techni Schools\\Dokumenty\\mikrocontroller\\database\\database.db"
@@ -46,30 +47,32 @@ devices = []
 def update_status(devices: list[Device]):
     while True:
         for device in devices:
-
             response = requests.get(f"http://{device.ip}/")
             response_body = response.json()
             status = response_body.get("status")
-
             curr_time = time.time()
             correct_time = time.ctime(curr_time)
-
             device.status = status
             device.last_connection = correct_time
             print("device is still working")
-
-            time.sleep(5)
+        time.sleep(5)
 
 
 def turn_off_all(devices):
     for device in devices:
-        response = requests.get(f"http://{device.ip}/turn_off")
+        requests.get(f"http://{device.ip}/turn_off")
 
 
 def turn_on_all(devices):
     for device in devices:
+        requests.get(f"http://{device.ip}/turn_on")
 
-        response = requests.get(f"http://{device.ip}/turn_on")
+
+@app.route('/register_ip', methods=['GET'])
+def register_ip():
+    ip_address = request.args.get('ip')
+    if ip_address:
+        devices.append(Device(len(devices), ip_address, "Your device"))
 
 
 @app.route("/off")
@@ -87,18 +90,16 @@ def all_turn_on():
 @app.get("/<id>/<cmd>")
 def control_device(id: str, cmd: str):
     if cmd not in ["turn_on", "turn_off"]:
-        return ("Unknown method", 422)
+        return jsonify({"error": "Unknown method"}), 422
 
     id = int(id)
-
     response = requests.get(f"http://{devices[id].ip}/{cmd}")
     response_body = response.json()
-
     status = response_body.get("status")
     time = response_body.get("time")
-
     devices[id].status = status
     devices[id].last_connection = time
+    return jsonify({"status": status, "time": time}), 200
 
 
 @app.get("/status")
@@ -111,12 +112,10 @@ def receive_data():
     data = request.json
     ip = data.get("ip")
     name = data.get("name")
-
     devices.append(Device(len(devices), ip, name))
-
     return ("", 200)
 
 
 if __name__ == "__main__":
     threading.Thread(target=update_status, daemon=True, args=[devices]).start()
-    app.run(debug=True, port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
