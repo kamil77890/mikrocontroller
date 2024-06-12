@@ -4,7 +4,7 @@ import { Turn_on, Turn_off } from "../../utils";
 const DeviceControlPanel = ({ device }) => {
   return (
     <div className="control-panel" key={device.id}>
-      <h3>{device.name}</h3>
+      <h3>{device.name ? device.name : "Device"}</h3>
       <p>
         Status: {device.status ? `Connected (${device.ip})` : "Not connected"}
       </p>
