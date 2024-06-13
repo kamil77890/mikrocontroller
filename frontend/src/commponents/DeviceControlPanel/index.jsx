@@ -10,7 +10,11 @@ const DeviceControlPanel = ({ device }) => {
   };
   return (
     <div className="control-panel" key={device.id}>
+<<<<<<< HEAD
       <h2>{device.name}</h2>
+=======
+      <h3>{device.name ? device.name : "Device"}</h3>
+>>>>>>> df3c37703e442c952c13cf1aa83335b88e8d8421
       <p>
         Status: {device.status ? `Connected (${device.ip})` : "Not connected"}
       </p>

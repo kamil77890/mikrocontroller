@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import "./Input.scss";
+import Communicator from "../Communicator";
 
 const Input = () => {
-  const [ip, setIp] = useState("192.168.");
+  const [ip, setIp] = useState("");
   const [name, setName] = useState("");
+  const [commmunicator, setCommunicator] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
+    if (name.length > 5 && ip) {
       const response = await fetch("http://localhost:5000/api/data", {
         method: "POST",
         headers: {
@@ -15,12 +17,16 @@ const Input = () => {
         },
         body: JSON.stringify({ ip: ip, name: name }),
       });
-      const result = await response.json();
-      console.log(result);
-    } catch (error) {
-      console.error("Error:", error);
+      setCommunicator(true);
     }
   };
+
+  if (commmunicator == true) {
+    const communicatorTime = setInterval(() => {
+      setCommunicator(false);
+    }, 5000);
+    clearInterval(communicatorTime);
+  }
 
   return (
     <div className="input-container">
@@ -51,6 +57,7 @@ const Input = () => {
       <button className="button" onClick={handleSubmit}>
         Add
       </button>
+      {commmunicator ? <Communicator ip={ip} name={name} /> : ""}
     </div>
   );
 };

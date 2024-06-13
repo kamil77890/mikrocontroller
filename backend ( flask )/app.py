@@ -73,6 +73,7 @@ def register_ip():
     ip_address = request.args.get('ip')
     if ip_address:
         devices.append(Device(len(devices), ip_address, "Your device"))
+        return ("", 200)
 
 
 @app.route("/off")
