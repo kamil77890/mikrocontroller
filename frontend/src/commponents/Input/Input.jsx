@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Input.scss";
 import Communicator from "../Communicator";
 
 const Input = () => {
   const [ip, setIp] = useState("");
   const [name, setName] = useState("");
-  const [commmunicator, setCommunicator] = useState(false);
+  const [communicator, setCommunicator] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -21,12 +21,18 @@ const Input = () => {
     }
   };
 
-  if (commmunicator == true) {
-    const communicatorTime = setInterval(() => {
-      setCommunicator(false);
-    }, 5000);
-    clearInterval(communicatorTime);
-  }
+  useEffect(() => {
+    let communicatorTimeout;
+    if (communicator) {
+      communicatorTimeout = setTimeout(() => {
+        setCommunicator(false);
+      }, 5000);
+    }
+
+    return () => {
+      clearTimeout(communicatorTimeout);
+    };
+  }, [communicator]);
 
   return (
     <div className="input-container">
@@ -57,7 +63,7 @@ const Input = () => {
       <button className="button" onClick={handleSubmit}>
         Add
       </button>
-      {commmunicator ? <Communicator ip={ip} name={name} /> : ""}
+      {communicator ? <Communicator ip={ip} name={name} /> : ""}
     </div>
   );
 };

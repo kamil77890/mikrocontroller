@@ -10,7 +10,7 @@ const Device = ({
   const textStyle = isDeviceActive(device.time)
     ? { color: "#5e5" }
     : { color: "#e55" };
-    
+
   return (
     <div key={index} className="device__item">
       <div className="devices__setup">
