@@ -4,30 +4,32 @@ from threading import Thread
 
 from device import Device
 
-devices = []
+
+class Devices:
+    def __init__(self) -> None:
+        self.devices = []
 
 
-def add_device(device: Device) -> None:
-    devices.append(device)
+def add_device(device: Device, devices: Devices) -> None:
+    devices.devices.append(device)
 
 
-def remove_device_by_ip(ip: str):
-    global devices
-    initial_len = len(devices)
-    devices = [device for device in devices if device.ip != ip]
-    print(devices)
-    print("Dziła")
-    return len(devices) < initial_len
+def remove_device_by_ip(ip: str, devices: Devices) -> None:
+    initial_len = len(devices.devices)
+    devices = [device for device in devices.devices if device.ip != ip]
+    print(devices.devices)
+    print("Działa")
+    return len(devices.devices) < initial_len
 
 
-def find_device_by_ip(ip: str):
-    for device in devices:
+def find_device_by_ip(ip: str, devices: Devices) -> any:
+    for device in devices.devices:
         if device.ip == ip:
             return device
     return None
 
 
-def update_device_name_by_ip(ip: str, new_name: str):
+def update_device_name_by_ip(ip: str, new_name: str, devices: Devices) -> None:
     device = find_device_by_ip(ip)
     if device:
         device.update_name(new_name)
@@ -35,9 +37,9 @@ def update_device_name_by_ip(ip: str, new_name: str):
     return False
 
 
-def update_status():
+def update_status(devices: Devices) -> None:
     while True:
-        for device in devices:
+        for device in devices.devices:
             response = requests.get(f"http://{device.ip}/")
             response_body = response.json()
             status = response_body.get("status")
@@ -46,16 +48,16 @@ def update_status():
             device.status = status
             device.last_connection = correct_time
             print("device is still working")
-        time.sleep(5)
+        time.sleep(2)
 
 
-def turn_off_all():
-    for device in devices:
+def turn_off_all(devices: Devices) -> None:
+    for device in devices.devices:
         requests.get(f"http://{device.ip}/turn_off")
 
 
-def turn_on_all():
-    for device in devices:
+def turn_on_all(devices: Devices) -> None:
+    for device in devices.devices:
         requests.get(f"http://{device.ip}/turn_on")
 
 

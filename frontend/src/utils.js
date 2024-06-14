@@ -21,6 +21,3 @@ export const Turn_on_all = async () => {
   const response = await axios.get(`http://127.0.0.1:5000/on`);
 };
 
-export const DelatingDevice = async (removed_ip) => {
-  const response = await axios.get(`http://127.0.0.1:5000/api/deletingDevice`);
-};
